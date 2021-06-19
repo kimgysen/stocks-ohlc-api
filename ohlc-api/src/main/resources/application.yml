@@ -1,0 +1,31 @@
+
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 500
+          order_inserts: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/stock-data
+    username: postgres
+    password: admin
+
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write_dates_as_timestamps: false
