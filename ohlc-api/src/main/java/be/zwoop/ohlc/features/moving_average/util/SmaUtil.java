@@ -1,7 +1,9 @@
 package be.zwoop.ohlc.features.moving_average.util;
 
 
+import be.zwoop.ohlc.features.moving_average.repository.MaEntity;
 import be.zwoop.ohlc.features.moving_average.repository.daily.DailyMaEntity;
+import be.zwoop.ohlc.features.ohlc.repository.OhlcEntity;
 import be.zwoop.ohlc.features.ohlc.repository.daily.DailyOhlcEntity;
 import org.springframework.stereotype.Component;
 
@@ -26,18 +28,21 @@ public class SmaUtil {
         smaList.add(newVal);
     }
 
-    public void populateOhlcSmaCross(DailyOhlcEntity ohlc, DailyMaEntity dailyMaEntity) {
+    public void populateOhlcSmaCross(OhlcEntity ohlc, MaEntity maEntity) {
+        if (maEntity.hasSma()) {
 
-        if (ohlc.touchesCandleBody(dailyMaEntity.getSma50())) {
-            dailyMaEntity.setCrossOhlcSma50(ohlc.getClose());
-        }
+            if (ohlc.touchesCandleBody(maEntity.getSma50())) {
+                maEntity.setCrossOhlcSma50(ohlc.getClose());
+            }
 
-        if (ohlc.touchesCandleBody(dailyMaEntity.getSma100())) {
-            dailyMaEntity.setCrossOhlcSma100(ohlc.getClose());
-        }
+            if (ohlc.touchesCandleBody(maEntity.getSma100())) {
+                maEntity.setCrossOhlcSma100(ohlc.getClose());
+            }
 
-        if (ohlc.touchesCandleBody(dailyMaEntity.getSma200())) {
-            dailyMaEntity.setCrossOhlcSma200(ohlc.getClose());
+            if (ohlc.touchesCandleBody(maEntity.getSma200())) {
+                maEntity.setCrossOhlcSma200(ohlc.getClose());
+            }
+
         }
     }
 

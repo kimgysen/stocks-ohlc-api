@@ -1,6 +1,7 @@
 package be.zwoop.ohlc.features.moving_average.repository;
 
 
+import be.zwoop.ohlc.features.ohlc.repository.OhlcEntity;
 import be.zwoop.ohlc.features.ohlc.repository.OhlcEntityPk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,8 +48,12 @@ public class MaEntity {
     protected Double crossOhlcSma200;
 
 
-    public boolean hasSmaCross() {
+    public boolean hasSma() {
         return sma50 != null && sma100 != null && sma200 != null;
+    }
+
+    public boolean hasSmaCross() {
+        return crossOhlcSma50 != null || crossOhlcSma100 != null || crossOhlcSma200 != null;
     }
 
     @Override

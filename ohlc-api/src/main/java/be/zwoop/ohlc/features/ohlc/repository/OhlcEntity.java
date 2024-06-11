@@ -52,7 +52,7 @@ public class OhlcEntity {
     }
 
     public boolean touchesCandleBody(double marketPrice) {
-        return marketPrice > open && marketPrice < close;
+        return marketPrice >= open && marketPrice <= close;
     }
 
     @Override

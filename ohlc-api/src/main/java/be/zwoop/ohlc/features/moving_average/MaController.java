@@ -141,24 +141,26 @@ public class MaController {
 
 
 
-    @PostMapping({"/v1.0/calculate-ohlc-crosses"})
+    @PostMapping({"/v1.0/calculate-ohlc-crosses/weekly"})
     @ResponseStatus(OK)
-    public void calculateCrosses(@Valid @RequestBody FromUntilPostBody fromUntilPostBody) {
+    public void calculateCrosses(@Valid @RequestBody CalcMaPostBody postBody) {
         tickerRepository
-                .findAllOrderByTickerSymbol()
+                .findAllGreaterThanOrEqualToTickerSymbolOrderByTickerSymbol(postBody.getTickerSymbol())
                 .forEach(t -> {
-                    List<DailyOhlcEntity> ohlcData = dailyOhlcRepository.findOhlcEntitiesByTickerSymbolAndMarketDateBetween(
-                            t.getTickerSymbol(), fromUntilPostBody.getFrom(), fromUntilPostBody.getUntil());
+                    logger.info(t.getTickerSymbol());
+
+                    List<WeeklyOhlcEntity> ohlcData = weeklyOhlcRepository.findOhlcEntitiesByTickerSymbolAndMarketDateBetween(
+                            t.getTickerSymbol(), postBody.getFrom(), postBody.getUntil());
                     ohlcData.forEach(ohlc -> {
 
-                        Optional<DailyMaEntity> maEntityOpt = dailyMaRepository.findByTickerSymbolAndMarketDate(ohlc.getTickerSymbol(), ohlc.getMarketDate());
+                        Optional<WeeklyMaEntity> maEntityOpt = weeklyMaRepository.findByTickerSymbolAndMarketDate(ohlc.getTickerSymbol(), ohlc.getMarketDate());
 
                         if (maEntityOpt.isPresent()) {
-                            DailyMaEntity dailyMaEntity = maEntityOpt.get();
-                            smaUtil.populateOhlcSmaCross(ohlc, dailyMaEntity);
+                            WeeklyMaEntity weeklyMaEntity = maEntityOpt.get();
+                            smaUtil.populateOhlcSmaCross(ohlc, weeklyMaEntity);
 
-                            if (dailyMaEntity.hasSmaCross()) {
-                                dailyMaRepository.save(dailyMaEntity);
+                            if (weeklyMaEntity.hasSma() && weeklyMaEntity.hasSmaCross()) {
+                                weeklyMaRepository.save(weeklyMaEntity);
                             }
 
                         }
