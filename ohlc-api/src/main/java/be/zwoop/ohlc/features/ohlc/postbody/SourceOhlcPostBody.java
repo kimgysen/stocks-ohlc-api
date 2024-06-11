@@ -4,15 +4,15 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Getter
 public class SourceOhlcPostBody {
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     LocalDate from;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     LocalDate until;
 
 }

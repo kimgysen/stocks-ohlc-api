@@ -1,6 +1,6 @@
 
 server:
-  port: 8081
+  port: 8050
   servlet:
     context-path: /api
 
@@ -20,7 +20,7 @@ spring:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/stock-data
     username: postgres
-    password: admin
+    password: postgres
 
     hikari:
       connectionTimeout: 20000

@@ -22,13 +22,14 @@ public class SeekingAlphaService {
     }
 
     public Map<String, SaOhlc> getOhlcData(String tickerSymbol, LocalDate start, LocalDate end) throws SaOhlcException {
-        String SEEKING_ALPHA_URL = "https://finance.api.seekingalpha.com/v2/historical-prices?show=daily&adjusted=false&";
+//        String SEEKING_ALPHA_URL = "https://finance.api.seekingalpha.com/v2/historical-prices?show=daily&adjusted=false&";
+        String SEEKING_ALPHA_URL = "https://seekingalpha.com/api/v3/historical_prices?filter[ticker][slug]=%s&&filter[as_of_date][gte]=%s&filter[as_of_date][lte]=%s&sort=as_of_date";
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String strStart = start.format(formatter);
         String strEnd = end.format(formatter);
 
-        String url = SEEKING_ALPHA_URL + "start=" + strStart + "&end=" + strEnd + "&symbols=SELB";
+        String url = String.format(SEEKING_ALPHA_URL, tickerSymbol, strStart, strEnd);
 
         try {
             SaResponse response = restTemplate.getForObject(url, SaResponse.class);

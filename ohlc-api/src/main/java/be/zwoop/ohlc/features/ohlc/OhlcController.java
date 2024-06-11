@@ -95,6 +95,9 @@ public class OhlcController {
 
             } catch (InterruptedException | SaOhlcException e) {
                 e.printStackTrace();
+
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
         });
 

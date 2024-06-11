@@ -7,10 +7,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
-
-@Table(name = "ohlc_daily")
+@Table(name = "ohlc_daily_2022")
 @Entity
 @IdClass(OhlcEntityPk.class)
 @NoArgsConstructor
