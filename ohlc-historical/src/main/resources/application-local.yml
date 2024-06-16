@@ -1,0 +1,27 @@
+#########################
+### Spring properties ###
+#########################
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  rabbitmq:
+    host: localhost
+    port: 5672
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:C:/devenv/java/h2/database/stocks_ohlc_local;AUTO_SERVER=TRUE;MODE=PostgreSQL
+    username:
+    password:
+    hikari:
+      schema: PUBLIC
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate:
+        default_schema: PUBLIC
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
