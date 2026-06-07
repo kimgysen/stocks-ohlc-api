@@ -3,13 +3,13 @@ package be.kpse.ohlc.features.ohlc;
 
 import be.kpse.ohlc.features.ohlc.postbody.SourceOhlcPostBody;
 import be.kpse.ohlc.features.ohlc.postbody.WeeklyOhlcPostBody;
-import be.kpse.ohlc.features.ohlc.repository.daily.DailyOhlcEntity;
-import be.kpse.ohlc.features.ohlc.repository.daily.DailyOhlcRepository;
-import be.kpse.ohlc.features.ohlc.repository.weekly.WeeklyOhlcEntity;
-import be.kpse.ohlc.features.ohlc.repository.weekly.WeeklyOhlcRepository;
-import be.kpse.ohlc.features.ohlc.service.seeking_alpha.SeekingAlphaService;
+import be.kpse.ohlc.repository.ohlc.DailyOhlcEntity;
+import be.kpse.ohlc.repository.ohlc.DailyOhlcRepository;
+import be.kpse.ohlc.repository.ohlc.WeeklyOhlcEntity;
+import be.kpse.ohlc.repository.ohlc.WeeklyOhlcRepository;
 import be.kpse.ohlc.features.ohlc.service.seeking_alpha.exception.SaOhlcException;
 import be.kpse.ohlc.features.ohlc.service.seeking_alpha.response.SaOhlc;
+import be.kpse.ohlc.features.ohlc.service.yahoo.YahooFinanceService;
 import be.kpse.ohlc.features.ticker.TickerEntity;
 import be.kpse.ohlc.features.ticker.TickerRepository;
 import be.kpse.ohlc.util.MarketDateUtil;
@@ -38,22 +38,20 @@ public class OhlcController {
     private final TickerRepository tickerRepository;
     private final DailyOhlcRepository dailyOhlcRepository;
     private final WeeklyOhlcRepository weeklyOhlcRepository;
-    private final SeekingAlphaService seekingAlphaService;
-
+    private final YahooFinanceService yahooFinanceService;
     private final MarketDateUtil marketDateUtil;
-
 
     public OhlcController(
             TickerRepository tickerRepository,
             DailyOhlcRepository dailyOhlcRepository,
             WeeklyOhlcRepository weeklyOhlcRepository,
-            SeekingAlphaService seekingAlphaService,
+            YahooFinanceService yahooFinanceService,
             MarketDateUtil marketDateUtil
     ) {
         this.tickerRepository = tickerRepository;
         this.dailyOhlcRepository = dailyOhlcRepository;
         this.weeklyOhlcRepository = weeklyOhlcRepository;
-        this.seekingAlphaService = seekingAlphaService;
+        this.yahooFinanceService = yahooFinanceService;
         this.marketDateUtil = marketDateUtil;
     }
 
@@ -66,13 +64,13 @@ public class OhlcController {
 
         tickers.forEach(t -> {
             try {
-                sleep(150);
-                Map<String, SaOhlc> saData = seekingAlphaService.getOhlcData(t.getTickerSymbol(), postBody.getFrom(), postBody.getUntil());
+                sleep(50);
+                Map<String, SaOhlc> saData = yahooFinanceService.getOhlcData(t.getTickerSymbol(), postBody.getFrom(), postBody.getUntil());
                 TreeMap<String, SaOhlc> sortedSaData = new TreeMap<>(saData);
                 logger.info(t.getTickerSymbol());
 
                 sortedSaData.forEach((key, ohlcData) -> {
-                    LocalDate marketDate = LocalDate.parse(key, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    LocalDate marketDate = LocalDate.parse(key, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                     Optional<DailyOhlcEntity> ohlcOpt = dailyOhlcRepository.findOhlcEntityByMarketDateAndTickerSymbol(marketDate, t.getTickerSymbol());
 
@@ -85,7 +83,7 @@ public class OhlcController {
                                     .high(ohlcData.getHigh())
                                     .low(ohlcData.getLow())
                                     .close(ohlcData.getClose())
-                                    .volume(ohlcData.getVolume())
+                                    .volume((long) ohlcData.getVolume())
                                     .build();
                             logger.info(ohlcToSave.toString());
                             dailyOhlcRepository.save(ohlcToSave);

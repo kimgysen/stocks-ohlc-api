@@ -11,14 +11,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ticker")
+@Table(name = "stock_ticker")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class TickerEntity {
 
     @Id
-    @Column(name = "ticker_symbol")
+    @Column(name = "symbol")
     String tickerSymbol;
 
 }

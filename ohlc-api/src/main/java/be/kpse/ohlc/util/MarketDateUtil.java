@@ -1,7 +1,7 @@
 package be.kpse.ohlc.util;
 
 
-import be.kpse.ohlc.features.ohlc.repository.daily.DailyOhlcEntity;
+import be.kpse.ohlc.repository.ohlc.DailyOhlcEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

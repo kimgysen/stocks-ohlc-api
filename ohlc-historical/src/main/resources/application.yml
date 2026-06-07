@@ -1,18 +1,11 @@
 server:
-  port: 8050
+  port: 8051
   servlet:
     context-path: /api/v1
 
 spring:
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USER:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
-    hikari:
-      connectionTimeout: 20000
-      maximumPoolSize: 5
   jpa:
-    database: POSTGRESQL
+    database: H2
     show-sql: false
     generate-ddl: false
     hibernate:
@@ -22,12 +15,29 @@ spring:
         jdbc:
           batch_size: 500
           order_inserts: true
+        dialect: org.hibernate.dialect.H2Dialect
         default_schema: PUBLIC
+  datasource:
+    url: jdbc:h2:file:./data/stock-data;NON_KEYWORDS=USER,VALUE;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     serialization:
       write_dates_as_timestamps: false
 
 app:
+  sec:
+    # SEC Fair Access policy requires: "company-name contact@email.com"
+    # See https://www.sec.gov/developer
+    user-agent: "stocks-ohlc-api contact@example.com"
   endpoints:
     tickers: https://www.sec.gov/files/company_tickers.json

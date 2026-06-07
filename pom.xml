@@ -30,7 +30,6 @@
         <springdoc-openapi-javadoc.version>1.6.15</springdoc-openapi-javadoc.version>
         <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
         <lombok.version>1.18.32</lombok.version>
-        <postgresql.version>42.7.3</postgresql.version>
     </properties>
 
     <dependencyManagement>
@@ -46,9 +45,9 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.modelmapper</groupId>

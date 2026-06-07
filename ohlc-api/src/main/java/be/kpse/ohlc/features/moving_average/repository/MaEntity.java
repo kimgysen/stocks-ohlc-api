@@ -1,7 +1,7 @@
 package be.kpse.ohlc.features.moving_average.repository;
 
 
-import be.kpse.ohlc.features.ohlc.repository.OhlcEntityPk;
+import be.kpse.ohlc.repository.ohlc.OhlcEntityPk;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

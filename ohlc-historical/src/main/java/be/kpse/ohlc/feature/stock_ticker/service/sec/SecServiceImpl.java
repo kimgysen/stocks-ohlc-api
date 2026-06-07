@@ -18,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class SecServiceImpl implements SecService {
 
+	@Value("${app.sec.user-agent}")
+	private String userAgent;
+
 	@Value("${app.endpoints.tickers}")
 	private String secUrl;
 
@@ -28,8 +31,7 @@ public class SecServiceImpl implements SecService {
 
 		RequestCallback requestCallback = request -> {
 			HttpHeaders headers = request.getHeaders();
-			headers.set(HttpHeaders.USER_AGENT,
-					"Sample Company Name AdminContact@<sample company domain>.com");
+			headers.set(HttpHeaders.USER_AGENT, userAgent);
 			//			headers.set(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate");
 			headers.set(HttpHeaders.HOST, "www.sec.gov");
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL));

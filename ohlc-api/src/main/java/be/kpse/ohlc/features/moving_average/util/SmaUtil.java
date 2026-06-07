@@ -2,7 +2,7 @@ package be.kpse.ohlc.features.moving_average.util;
 
 
 import be.kpse.ohlc.features.moving_average.repository.MaEntity;
-import be.kpse.ohlc.features.ohlc.repository.OhlcEntity;
+import be.kpse.ohlc.repository.ohlc.OhlcEntity;
 
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package be.kpse.ohlc.features.moving_average.repository.daily;
 
 
 import be.kpse.ohlc.features.moving_average.repository.MaEntity;
-import be.kpse.ohlc.features.ohlc.repository.OhlcEntityPk;
+import be.kpse.ohlc.repository.ohlc.OhlcEntityPk;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 

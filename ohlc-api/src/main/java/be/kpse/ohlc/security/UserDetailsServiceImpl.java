@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,6 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 @Component
-@Import(UserRepository.class)
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 

@@ -1,8 +1,13 @@
 
-POST http://localhost:8050/api/ohlc/v1.0/
+POST http://localhost:8051/api/v1/ticker
+Content-Type: application/json
+
+
+###
+POST http://localhost:8050/api/ohlc/v1.0
 Content-Type: application/json
 
 {
-  "from": "01/01/2022",
-  "until": "20/08/2022"
+  "from": "01/01/2020",
+  "until": "31/12/2020"
 }
